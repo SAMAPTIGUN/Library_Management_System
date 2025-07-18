@@ -11,6 +11,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import MyBooks from "./pages/MyBooks";
 import SearchBooks from "./pages/SearchBooks";
 import UserProfile from "./pages/UserProfile";
+import RequireAuth from './components/RequireAuth';
 function App() {
   return (
     <BrowserRouter>
@@ -20,11 +21,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/user/dashboard" element={<UserDashboard />} />
-          <Route path="/my-books" element={<MyBooks />} />
-          <Route path="/search-books" element={<SearchBooks />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/user/dashboard" element={<RequireAuth><UserDashboard /></RequireAuth>} />
+          <Route path="/my-books" element={<RequireAuth><MyBooks /></RequireAuth>} />
+          <Route path="/search-books" element={<RequireAuth><SearchBooks /></RequireAuth>} />
+          <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
+          <Route path="/admin/dashboard" element={<RequireAuth><AdminDashboard /></RequireAuth>} />
         </Routes>
       </div>
       <Footer />
