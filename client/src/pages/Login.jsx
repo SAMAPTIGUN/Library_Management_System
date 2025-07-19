@@ -22,14 +22,14 @@ const Login = () => {
       Swal.fire({
         icon: "success",
         title: "Login Successful",
-        text: `Welcome ${user.role}`,
+        text: `Welcome ${user.name}`,
       });
 
-      if (user.role === "Admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/user/dashboard");
-      }
+       if (user.role === "Admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/dashboard");
+    }
     } catch (error) {
       Swal.fire({
         icon: "error",
