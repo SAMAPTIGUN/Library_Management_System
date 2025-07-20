@@ -1,57 +1,80 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    navigate("/login");
-  };
-
   return (
-    <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>User Dashboard</h2>
-        <button className="btn btn-outline-danger" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
+    <div className="container py-5">
+      <h2 className="text-center mb-5 text-success">Welcome to Your Dashboard</h2>
 
-      <div className="row">
-        <div className="col-md-4 mb-3">
-          <div className="card text-center h-100">
+      <div className="row g-4">
+        {/* My Books */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
             <div className="card-body">
+              <i className="bi bi-journal-bookmark-fill display-4 text-primary mb-3"></i>
               <h5 className="card-title">My Books</h5>
-              <p className="card-text">View and manage books you have borrowed.</p>
-              <button className="btn btn-primary" onClick={() => navigate("/user/my-books")}>
-                Go
-              </button>
+              <p className="card-text">See your issued books and due dates.</p>
+              <Link to="/my-books" className="btn btn-outline-success">View</Link>
             </div>
           </div>
         </div>
 
-        <div className="col-md-4 mb-3">
-          <div className="card text-center h-100">
+        {/* Search Books */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
             <div className="card-body">
+              <i className="bi bi-search display-4 text-primary mb-3"></i>
               <h5 className="card-title">Search Books</h5>
-              <p className="card-text">Search for books in the library catalog.</p>
-              <button className="btn btn-primary" onClick={() => navigate("/user/search-books")}>
-                Go
-              </button>
+              <p className="card-text">Browse our full catalog of books.</p>
+              <Link to="/searchbook" className="btn btn-outline-success">Search</Link>
             </div>
           </div>
         </div>
 
-        <div className="col-md-4 mb-3">
-          <div className="card text-center h-100">
+        {/* Profile */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
             <div className="card-body">
-              <h5 className="card-title">User Profile</h5>
-              <p className="card-text">Edit your personal information and settings.</p>
-              <button className="btn btn-primary" onClick={() => navigate("/user/profile")}>
-                Go
-              </button>
+              <i className="bi bi-person-circle display-4 text-primary mb-3"></i>
+              <h5 className="card-title">My Profile</h5>
+              <p className="card-text">Manage your profile and update details.</p>
+              <Link to="/profile" className="btn btn-outline-success">Profile</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Notifications */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
+            <div className="card-body">
+              <i className="bi bi-bell-fill display-4 text-primary mb-3"></i>
+              <h5 className="card-title">Notifications</h5>
+              <p className="card-text">Get alerts for due dates and new arrivals.</p>
+              <button className="btn btn-outline-success">View Alerts</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Reading History */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
+            <div className="card-body">
+              <i className="bi bi-clock-history display-4 text-primary mb-3"></i>
+              <h5 className="card-title">Reading History</h5>
+              <p className="card-text">Check your previously borrowed books.</p>
+              <button className="btn btn-outline-success">History</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Book Suggestions */}
+        <div className="col-md-4">
+          <div className="card shadow-sm h-100 text-center">
+            <div className="card-body">
+              <i className="bi bi-lightbulb-fill display-4 text-primary mb-3"></i>
+              <h5 className="card-title">Book Suggestions</h5>
+              <p className="card-text">Recommend a book for the library.</p>
+              <button className="btn btn-outline-success">Suggest</button>
             </div>
           </div>
         </div>

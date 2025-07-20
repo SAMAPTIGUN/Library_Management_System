@@ -1,28 +1,18 @@
-// client/my_app/src/pages/Home.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Home.css";
 
-function Home() {
+const Home = () => {
   return (
-    <div className="container mt-5">
-      <div className="p-5 mb-4 bg-light rounded-3 shadow">
-        <div className="container-fluid py-5">
-          <h1 className="display-5 fw-bold">Welcome to Library Management System</h1>
-          <p className="col-md-8 fs-4">
-            This system allows users to register, login, and manage library resources efficiently.
-          </p>
-          <div className="mt-3">
-            <Link to="/register" className="btn btn-primary btn-lg me-3">
-              Register Now
-            </Link>
-            <Link to="/login" className="btn btn-outline-secondary btn-lg">
-              Login
-            </Link>
-          </div>
-        </div>
+    <div className="home-container text-white d-flex justify-content-center align-items-center">
+      <div className="text-center">
+        <h1 className="display-4 fw-bold mb-4">📖 Welcome to the Library</h1>
+        <p className="lead mb-5">The Budge Budge Institute of Technology (BBIT) library, a part of the college's academic infrastructure, plays a vital role in supporting the institution's academic activities. BBIT's central library houses a collection of 48,648 books and 4,438 titles. The library is a key component of the college's infrastructure, which also includes various labs like a Fluid Dynamics Lab and a Soft Skill Language Lab. </p>
+        <Link to="/login" className="btn btn-primary btn-lg mx-2">Login</Link>
+        <Link to="/register" className="btn btn-outline-light btn-lg mx-2">Register</Link>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

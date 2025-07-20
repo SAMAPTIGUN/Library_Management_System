@@ -3,11 +3,11 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light text-center py-3 mt-5">
-      <p className="mb-0">
-        &copy; {new Date().getFullYear()} Library Management System. All Rights Reserved.
-      </p>
-    </footer>
+    <footer className="bg-dark text-white text-center py-3">
+  <div>© {new Date().getFullYear()} BBIT Central Library (BCL). All rights reserved.</div>
+  <div>Managed by Academic Block, BBIT</div>
+  <div>Contact: centrallibrary137@gmail.com | +91-12345-67890</div>
+</footer>
   );
 }
 

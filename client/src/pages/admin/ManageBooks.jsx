@@ -1,81 +1,109 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import { getAllBooks, deleteBook } from '../../service/api';
 
 const ManageBooks = () => {
   const [books, setBooks] = useState([]);
-  const [newBook, setNewBook] = useState({ title: "", author: "", isbn: "" });
+  const [loading, setLoading] = useState(true);
+
+  const fetchBooks = async () => {
+    setLoading(true);
+    try {
+      const res = await getAllBooks();
+      if (res?.data) {
+        setBooks(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  const fetchBooks = () => {
-    axios.get("/api/books")
-      .then(res => setBooks(res.data))
-      .catch(err => console.error("Error fetching books", err));
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this book?");
+    if (!confirmDelete) return;
+
+    try {
+      await deleteBook(id);
+      fetchBooks(); // Refresh the list
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
   };
 
-  const handleChange = (e) => {
-    setNewBook({ ...newBook, [e.target.name]: e.target.value });
-  };
-
-  const handleAddBook = (e) => {
-    e.preventDefault();
-    axios.post("/api/books", newBook)
-      .then(() => {
-        fetchBooks();
-        setNewBook({ title: "", author: "", isbn: "" });
-      })
-      .catch(err => console.error("Add failed", err));
-  };
-
-  const deleteBook = (id) => {
-    axios.delete(`/api/books/${id}`)
-      .then(() => setBooks(books.filter(book => book._id !== id)))
-      .catch(err => console.error("Delete failed", err));
+  const handleEdit = (id) => {
+    alert(`Edit functionality for Book ID: ${id} will be implemented soon.`);
+    // You can redirect to /editbook/:id when ready
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Manage Books</h2>
+    <div className="container py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="text-success">Manage Books</h2>
+        <Link to="/addbook" className="btn btn-primary">
+          <i className="bi bi-plus-circle me-2"></i>Add New Book
+        </Link>
+      </div>
 
-      <form className="row g-3 mb-4" onSubmit={handleAddBook}>
-        <div className="col-md-4">
-          <input type="text" className="form-control" name="title" value={newBook.title} onChange={handleChange} placeholder="Book Title" required />
-        </div>
-        <div className="col-md-4">
-          <input type="text" className="form-control" name="author" value={newBook.author} onChange={handleChange} placeholder="Author" required />
-        </div>
-        <div className="col-md-3">
-          <input type="text" className="form-control" name="isbn" value={newBook.isbn} onChange={handleChange} placeholder="ISBN" required />
-        </div>
-        <div className="col-md-1">
-          <button type="submit" className="btn btn-success w-100">Add</button>
-        </div>
-      </form>
-
-      <table className="table table-bordered">
-        <thead className="table-dark">
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books.map(book => (
-            <tr key={book._id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.isbn}</td>
-              <td>
-                <button className="btn btn-danger btn-sm" onClick={() => deleteBook(book._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="table-responsive shadow-sm rounded">
+        {loading ? (
+          <div className="text-center py-5">
+            <div className="spinner-border text-success" role="status"></div>
+            <p className="mt-2">Loading books...</p>
+          </div>
+        ) : (
+          <table className="table table-bordered table-hover align-middle">
+            <thead className="table-success">
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {books.length > 0 ? (
+                books.map((book, index) => (
+                  <tr key={book.id}>
+                    <td>{index + 1}</td>
+                    <td>{book.title}</td>
+                    <td>{book.author}</td>
+                    <td>{book.isbn}</td>
+                    <td>{book.category}</td>
+                    <td>
+                      <button
+                        className="btn btn-sm btn-warning me-2"
+                        onClick={() => handleEdit(book.id)}
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(book.id)}
+                      >
+                        <i className="bi bi-trash3-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center text-muted">
+                    No books found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

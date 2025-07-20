@@ -1,47 +1,85 @@
 import React, { useState } from "react";
+import { searchBooks } from "../service/api";
 
-const SearchBooks = () => {
+export default function SearchBook() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [searched, setSearched] = useState(false);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Dummy filter – replace with backend API call
-    const dummyBooks = [
-      { id: 1, title: "Data Structures", author: "Narasimha Karumanchi" },
-      { id: 2, title: "Operating System Concepts", author: "Galvin" },
-    ];
-    const filtered = dummyBooks.filter((book) =>
-      book.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setResults(filtered);
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    try {
+      const res = await searchBooks(query);
+      setResults(res.data);
+      setSearched(true);
+    } catch (error) {
+      console.error("Search failed", error);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setQuery(val);
+    if (val.trim() === "") {
+      setResults([]);
+      setSearched(false);
+    }
   };
 
   return (
-    <div className="container mt-5">
-      <h3>🔍 Search Books</h3>
-      <form className="d-flex my-3" onSubmit={handleSearch}>
+    <div className="container py-5">
+      <h2 className="text-center mb-4">🔍 Search Book</h2>
+
+      <div className="input-group mb-4">
         <input
           type="text"
-          className="form-control me-2"
-          placeholder="Enter book title or author"
+          className="form-control"
+          placeholder="Enter title, author or ISBN"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
-        <button type="submit" className="btn btn-primary">Search</button>
-      </form>
+        <button className="btn btn-primary" onClick={handleSearch}>
+          Search
+        </button>
+      </div>
 
       {results.length > 0 && (
-        <ul className="list-group">
-          {results.map((book) => (
-            <li key={book.id} className="list-group-item">
-              <strong>{book.title}</strong> — {book.author}
-            </li>
-          ))}
-        </ul>
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>📚 Title</th>
+              <th>✍️ Author</th>
+              <th>🔢 ISBN</th>
+              <th>🏷️ Genre</th>
+              <th>📅 Published</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((book) => (
+              <tr key={book._id}>
+                <td>{book.title}</td>
+                <td>{book.author}</td>
+                <td>{book.isbn}</td>
+                <td>{book.genre}</td>
+                <td>{book.published}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {searched && results.length === 0 && (
+        <div className="alert alert-warning text-center">
+          No books found for "<strong>{query}</strong>"
+        </div>
       )}
     </div>
   );
-};
-
-export default SearchBooks;
+}
