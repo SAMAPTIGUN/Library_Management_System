@@ -41,7 +41,7 @@ const AddBook = () => {
 
         // Redirect to ViewBooks page after 2 seconds
         setTimeout(() => {
-          navigate('/User/viewbook');
+          navigate('/viewbook');
         }, 2000);
       } else {
         Swal.fire({
