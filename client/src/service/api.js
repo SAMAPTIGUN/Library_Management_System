@@ -37,3 +37,55 @@ export const searchBooks = async (query) => {
     throw error; // Re-throw so UI can catch it
   }
 };
+
+export const getUserProfile = async () => {
+  return await axios.get("/api/users/profile");
+};
+
+export const updateUserProfile = async (data) => {
+  return await axios.put("/api/users/profile", data);
+};
+
+
+
+// src/service/api.js
+
+export const getNotifications = async () => {
+  // Simulated data for testing
+  return {
+    data: [
+      {
+        type: "due",
+        message: "The book 'Java Fundamentals' is due on July 20, 2025.",
+      },
+      {
+        type: "new",
+        message: "New arrival: 'Clean Code by Robert C. Martin' now available.",
+      },
+    ],
+  };
+};
+
+
+// ReadingHistory
+
+export const getReadingHistory = async () => {
+  return {
+    data: [
+      {
+        title: "Introduction to Algorithms",
+        author: "Thomas H. Cormen",
+        isbn: "9780262033848",
+        borrowedDate: "2025-06-10",
+        returnedDate: "2025-06-25",
+      },
+      {
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        borrowedDate: "2025-07-01",
+        returnedDate: null,
+      },
+    ],
+  };
+};

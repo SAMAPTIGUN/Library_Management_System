@@ -2,9 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/"; // or use navigate('/')
+  };
+  
   return (
-    <div className="container py-5">
-      <h2 className="text-center mb-5 text-success">Welcome to Your Dashboard</h2>
+    <div className="container py-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Welcome User</h2>
+        <button className="btn btn-outline-danger" onClick={handleLogout}>
+          <i className="bi bi-box-arrow-right me-2"></i>Logout
+        </button>
+      </div>
 
       <div className="row g-4">
         {/* My Books */}
@@ -50,7 +60,7 @@ const UserDashboard = () => {
               <i className="bi bi-bell-fill display-4 text-primary mb-3"></i>
               <h5 className="card-title">Notifications</h5>
               <p className="card-text">Get alerts for due dates and new arrivals.</p>
-              <button className="btn btn-outline-success">View Alerts</button>
+              <Link to="/notifications" className="btn btn-outline-success">View Alerts</Link>
             </div>
           </div>
         </div>
@@ -62,7 +72,7 @@ const UserDashboard = () => {
               <i className="bi bi-clock-history display-4 text-primary mb-3"></i>
               <h5 className="card-title">Reading History</h5>
               <p className="card-text">Check your previously borrowed books.</p>
-              <button className="btn btn-outline-success">History</button>
+              <Link to="/Reading-History" className="btn btn-outline-success">History</Link>
             </div>
           </div>
         </div>
@@ -74,7 +84,7 @@ const UserDashboard = () => {
               <i className="bi bi-lightbulb-fill display-4 text-primary mb-3"></i>
               <h5 className="card-title">Book Suggestions</h5>
               <p className="card-text">Recommend a book for the library.</p>
-              <button className="btn btn-outline-success">Suggest</button>
+              <Link to="/suggestive-book" className="btn btn-outline-success">Suggest</Link>
             </div>
           </div>
         </div>

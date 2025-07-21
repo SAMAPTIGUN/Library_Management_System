@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllBooks, deleteBook } from '../service/api';
+import { getAllBooks, deleteBook } from '../../service/api';
 import { Link } from 'react-router-dom';
 
 const ViewBooks = () => {
